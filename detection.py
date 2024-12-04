@@ -1,9 +1,10 @@
 from keras.models import model_from_json
 import numpy as np
 
+
 class AccidentDetectionModel(object):
 
-    class_nums = ['Accident', "No Accident"]
+    class_nums = ["Accident", "No Accident"]
 
     def __init__(self, model_json_file, model_weights_file):
         # load model from JSON file
