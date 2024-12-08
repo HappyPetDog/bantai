@@ -20,27 +20,19 @@ interface Log {
 
 export default function Home() {
   const [logs, setLogs] = useState<Log[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     const getLogs = async () => {
-      setLoading(true);
       const { data, error } = await fetchLogs();
       if (error) {
         console.error(error);
-        setError("Failed to fetch logs.");
       } else {
         setLogs(data || []);
       }
-      setLoading(false);
     };
 
     getLogs();
   }, []);
-
-  if (loading) return <p>Loading...</p>;
-  if (error) return <p>{error}</p>;
 
   return (
     <div className="w-full px-4 py-8">
