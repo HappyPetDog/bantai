@@ -8,7 +8,7 @@ import { Label } from "@/components/ui/label";
 import supabase from "@/lib/supabase";
 
 export default function Home() {
-  const [videos] = useState(["testvid.mp4", "testvid-noacc.mp4"]); // List videos manually or fetch dynamically
+  const [videos] = useState(["testvid.mp4"]); // List videos manually or fetch dynamically
   const [selectedVideo, setSelectedVideo] = useState<string | null>(null);
   const [location, setLocation] = useState<string>("");
   const [name, setName] = useState<string>("");

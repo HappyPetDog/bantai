@@ -5,6 +5,10 @@ import os
 import logging
 import shutil
 import uuid
+import smtplib
+from email.mime.text import MIMEText
+from email.mime.multipart import MIMEMultipart
+from dotenv import load_dotenv
 
 app = Flask(__name__)
 
@@ -13,6 +17,40 @@ logging.basicConfig(level=logging.INFO)
 
 # Load YOLO model
 model = YOLO("best.pt")  # Replace with your model weights
+
+load_dotenv()
+
+EMAIL_ADDRESS = os.getenv("EMAIL_ADDRESS")
+EMAIL_PASSWORD = os.getenv("EMAIL_PASSWORD")
+RECIPIENT_EMAIL = os.getenv("RECIPIENT_EMAIL")
+
+
+def send_email(severity, id):
+    subject = f"Accident Detected: {severity.capitalize()} Severity"
+    body = f"""
+    An accident has been detected in the.
+
+    Severity: {severity}
+    ID: {id}
+
+    Please check the system for more details.
+    """
+    try:
+        # Create the email
+        msg = MIMEMultipart()
+        msg["From"] = EMAIL_ADDRESS
+        msg["To"] = RECIPIENT_EMAIL
+        msg["Subject"] = subject
+        msg.attach(MIMEText(body, "plain"))
+
+        # Send the email
+        with smtplib.SMTP_SSL("smtp.gmail.com", 465) as server:
+            server.login(EMAIL_ADDRESS, EMAIL_PASSWORD)
+            server.send_message(msg)
+
+        app.logger.info(f"Email sent to {RECIPIENT_EMAIL} about {severity} severity.")
+    except Exception as e:
+        app.logger.error(f"Error sending email: {e}")
 
 
 @app.route("/process-video", methods=["POST"])
@@ -49,7 +87,7 @@ def process_video():
         app.logger.info(f"Output video saved to: {output_video_path}")
 
         # Check the severity of the accident
-        severity = "no accident"
+        severity = "No accident"
         txt_files_found = False
         for root, dirs, files in os.walk(output_subdir):
             for file in files:
@@ -59,12 +97,16 @@ def process_video():
                         for line in f:
                             parts = line.split()
                             if parts[0] == "2":
-                                severity = "severe"
-                            elif parts[0] == "1" and severity != "severe":
-                                severity = "moderate"
+                                severity = "Severe"
+                            elif parts[0] == "1" and severity != "Severe":
+                                severity = "Moderate"
 
         if not txt_files_found:
-            severity = "no accident"
+            severity = "No accident"
+
+        # Send an email if the severity is moderate or severe
+        if severity in ["Moderate", "Severe"]:
+            send_email(severity, random_id)
 
         # Delete the labels folder
         labels_folder = os.path.join(output_subdir, "labels")
