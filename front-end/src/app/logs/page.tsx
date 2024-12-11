@@ -24,7 +24,7 @@ export default function Page() {
 
   return (
     <div className="w-full px-4 py-8">
-      <h1 className="text-3xl font-bold mb-6">Records</h1>
+      <h1 className="text-3xl font-bold mb-6">Logs</h1>
       <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
         {records.map((record) => (
           <RecordCard
@@ -35,7 +35,7 @@ export default function Page() {
             status={record.status}
             severity={record.severity}
             notes={record.notes}
-            image={record.image}
+            video_path={record.video_path}
             time={record.time}
           />
         ))}

@@ -1,4 +1,4 @@
-import { Home, Inbox } from "lucide-react";
+import { Home, Inbox, Cctv } from "lucide-react";
 
 import {
   Sidebar,
@@ -22,11 +22,11 @@ const items = [
     url: "/logs",
     icon: Inbox,
   },
-  // {
-  //   title: "Live Feed",
-  //   url: "/live-feed",
-  //   icon: Cctv,
-  // },
+  {
+    title: "Tester",
+    url: "/live-feed",
+    icon: Cctv,
+  },
 ];
 
 export function AppSidebar() {

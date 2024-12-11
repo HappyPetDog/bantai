@@ -1,5 +1,3 @@
-import Image from "next/image";
-
 import { Record } from "@/types/record";
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -24,22 +22,19 @@ export const RecordCard = ({
   status,
   severity,
   notes,
-  image,
+  video_path,
   time,
 }: Record) => {
   const formattedTimestamp = new Date(time).toLocaleString();
 
   return (
     <Card key={id} className="w-full border rounded-lg mb-4 shadow-md">
-      {image && (
+      {video_path && (
         <div className="w-full">
-          <Image
-            src={image}
-            alt={name}
-            width={300}
-            height={300}
-            className="w-full h-auto rounded-md"
-          />
+          <video controls width="600">
+            <source src={`${video_path}`} type="video/mp4" />
+            Your browser does not support the video tag.
+          </video>
         </div>
       )}
       <CardHeader>

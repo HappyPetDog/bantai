@@ -5,6 +5,6 @@ export type Record = {
   status: boolean;
   severity: string;
   notes: string;
-  image: string;
+  video_path: string;
   time: string;
 };
