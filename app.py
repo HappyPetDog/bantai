@@ -25,10 +25,10 @@ EMAIL_PASSWORD = os.getenv("EMAIL_PASSWORD")
 RECIPIENT_EMAIL = os.getenv("RECIPIENT_EMAIL")
 
 
-def send_email(severity, id):
+def send_email(severity, id, location="Unknown", name="Unknown"):
     subject = f"Accident Detected: {severity.capitalize()} Severity"
     body = f"""
-    An accident has been detected in the.
+    An accident has been detected from {name} at {location}.
 
     Severity: {severity}
     ID: {id}
@@ -58,6 +58,8 @@ def process_video():
     # Get the video file path from the request body
     data = request.get_json()
     video_path = "front-end/" + data.get("videoPath")
+    location = data.get("location")
+    name = data.get("name")
 
     # Log the video path
     app.logger.info(f"Processing video: {video_path}")
@@ -106,7 +108,7 @@ def process_video():
 
         # Send an email if the severity is moderate or severe
         if severity in ["Moderate", "Severe"]:
-            send_email(severity, random_id)
+            send_email(severity, random_id, location, name)
 
         # Delete the labels folder
         labels_folder = os.path.join(output_subdir, "labels")

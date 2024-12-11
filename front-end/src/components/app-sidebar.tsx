@@ -24,7 +24,7 @@ const items = [
   },
   {
     title: "Tester",
-    url: "/live-feed",
+    url: "/tester",
     icon: Cctv,
   },
 ];

@@ -26,7 +26,11 @@ export default function Home() {
       const response = await fetch("/api/process-video", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ videoPath: `public/videos/${selectedVideo}` }),
+        body: JSON.stringify({
+          videoPath: `public/videos/${selectedVideo}`,
+          location,
+          name,
+        }),
       });
 
       const result = await response.json();
@@ -57,7 +61,7 @@ export default function Home() {
 
   return (
     <div className="p-4">
-      <h1 className="text-3xl font-bold mb-6">YOLO Video Processor</h1>
+      <h1 className="text-3xl font-bold mb-6">Video Processor</h1>
 
       <h2 className="text-xl mb-4">Select a Video:</h2>
       <ul className="mb-4">

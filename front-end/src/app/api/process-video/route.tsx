@@ -3,7 +3,7 @@
 import { NextResponse } from "next/server";
 
 export async function POST(req) {
-  const { videoPath } = await req.json();
+  const { videoPath, location, name } = await req.json();
 
   if (!videoPath) {
     return NextResponse.json(
@@ -16,7 +16,7 @@ export async function POST(req) {
     const response = await fetch("http://localhost:5001/process-video", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ videoPath }),
+      body: JSON.stringify({ videoPath, location, name }),
     });
 
     if (!response.ok) {
